@@ -1,0 +1,109 @@
+# Changelog produit hôte — source de vérité pour dash.portaki.app (cloche « Nouveautés »).
+# Repo public : https://github.com/PortakiApp/portaki-changelog
+
+releases:
+  - id: a0000000-0000-4000-8000-000000000141
+    version: "1.4.1"
+    releasedAt: "2026-05-18T10:00:00Z"
+    category: auth
+    titleFr: "Connexion intelligente"
+    summaryFr: "Sur /login, si vous êtes déjà connecté : continuer avec votre compte ou vous déconnecter pour en utiliser un autre."
+    featured: false
+    demoUrl: /login
+    entries:
+      - changeType: nouveau
+        titleFr: "Carte « Continuer avec Prénom Nom » sur la page de connexion"
+      - changeType: change
+        titleFr: "Déconnexion explicite avant connexion avec un autre compte"
+
+  - id: a0000000-0000-4000-8000-000000000140
+    version: "1.4.0"
+    releasedAt: "2026-05-11T10:00:00Z"
+    category: platform
+    titleFr: "Plateforme modules · versions & mises à jour"
+    summaryFr: "Chaque logement épingle sa version. Bandeau azure quand une mise à jour est dispo."
+    featured: true
+    featureHighlightFr: "Chaque logement épingle sa version d'un module. Quand une nouvelle sort, vous voyez exactement ce qui change avant d'appuyer sur le bouton."
+    demoUrl: /dashboard/marketplace
+    entries:
+      - changeType: nouveau
+        titleFr: "Versions installées vs catalogue par logement"
+      - changeType: nouveau
+        titleFr: "Bandeau upgrade dans le panneau config"
+      - changeType: nouveau
+        titleFr: "Bloc « Nouveautés » dans le manifeste module"
+      - changeType: fix
+        titleFr: "Tags « À compléter » cohérents entre marketplace et workspace"
+      - changeType: perf
+        titleFr: "Listing marketplace ×2 plus rapide (cache catalogue)"
+
+  - id: a0000000-0000-4000-8000-000000000132
+    version: "1.3.2"
+    releasedAt: "2026-05-06T10:00:00Z"
+    category: guest
+    titleFr: "Bottom tab nav + carte de placement"
+    summaryFr: "4 onglets (Accueil · Séjour · Découvrir · Aide), placement modules par l'hôte en drag & drop."
+    demoUrl: /dashboard/listings
+    entries:
+      - changeType: nouveau
+        titleFr: "Bottom tab navigation iOS-like (4 onglets)"
+      - changeType: nouveau
+        titleFr: "Drag & drop pour le placement des modules"
+      - changeType: fix
+        titleFr: "Scroll interne sous la bottom bar (overflow correct)"
+
+  - id: a0000000-0000-4000-8000-000000000130
+    version: "1.3.0"
+    releasedAt: "2026-04-28T10:00:00Z"
+    category: property
+    titleFr: "Page Statistiques en landing logement"
+    summaryFr: "La fiche logement ouvre désormais sur les stats. La config bascule dans Paramètres."
+    demoUrl: /dashboard/listings
+    entries:
+      - changeType: nouveau
+        titleFr: "Page stats avec sparklines + trafic 30 jours"
+      - changeType: nouveau
+        titleFr: "Brouillon / Publié avec quotas plan"
+      - changeType: change
+        titleFr: "Configuration déplacée dans Paramètres"
+
+  - id: a0000000-0000-4000-8000-000000000125
+    version: "1.2.5"
+    releasedAt: "2026-04-19T10:00:00Z"
+    category: marketplace
+    titleFr: "Marketplace + SDK community"
+    summaryFr: "Catalogue officiels + communautaires, SDK TypeScript open-source, distribution immédiate."
+    demoUrl: /dashboard/marketplace
+    entries:
+      - changeType: nouveau
+        titleFr: "Marketplace dashboard avec filtres et catégories"
+      - changeType: nouveau
+        titleFr: "Page « Comment ça marche »"
+      - changeType: nouveau
+        titleFr: "Manifeste portaki.module.json"
+
+  - id: a0000000-0000-4000-8000-000000000120
+    version: "1.2.0"
+    releasedAt: "2026-04-07T10:00:00Z"
+    category: guest
+    titleFr: "14 modules officiels"
+    summaryFr: "Trains, Événements, Checklist, Wi-Fi, Règlement, Sections, iCal, Météo, Transports, Contacts, Carte, Formulaire, Avis, Urgences."
+    demoUrl: /dashboard/marketplace
+    entries:
+      - changeType: nouveau
+        titleFr: "14 modules invités prêts à activer"
+
+  - id: a0000000-0000-4000-8000-000000000110
+    version: "1.1.0"
+    releasedAt: "2026-03-20T10:00:00Z"
+    category: auth
+    titleFr: "Connexion & invitations équipe"
+    summaryFr: "Connexion e-mail, Google SSO, invitations avec rôles, mot de passe oublié."
+    demoUrl: /login
+    entries:
+      - changeType: nouveau
+        titleFr: "Connexion + création de compte + Google SSO"
+      - changeType: nouveau
+        titleFr: "Accept invitation avec sélecteur de rôle"
+      - changeType: nouveau
+        titleFr: "Mot de passe oublié · lien expire 30 min"
