@@ -11,7 +11,7 @@ releases:
     featured: false
     entries:
       - changeType: change
-        titleFr: "Import iCal : Reserved / Réservé → statut À compléter (plus de voyageur « Reserved »)"
+        titleFr: "Import iCal : Reserved / Réservé sans nom en base ; liste séjours affiche « — » si voyageur non renseigné"
       - changeType: change
         titleFr: "Liste séjours : pastilles Source, code monospace, actions compactes ; colonne Import retirée"
 
