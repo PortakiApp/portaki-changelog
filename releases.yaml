@@ -2,6 +2,21 @@
 # Repo public : https://github.com/PortakiApp/portaki-changelog
 
 releases:
+  - id: a0000000-0000-4000-8000-000000000142
+    version: "1.4.2"
+    releasedAt: "2026-05-21T12:00:00Z"
+    category: guest
+    titleFr: "Carte du quartier sur Découvrir"
+    summaryFr: "Les POI actifs que vous affichez sur la carte hôte apparaissent chez l’invité : pastilles par catégorie, liste et itinéraire."
+    featured: false
+    entries:
+      - changeType: nouveau
+        titleFr: "POI du logement sur l’onglet invité Découvrir (carte + liste)"
+      - changeType: nouveau
+        titleFr: "Pastilles emoji par catégorie sur les cartes hôte et invité"
+      - changeType: change
+        titleFr: "28 catégories de suggestion (plage, restaurant, excursion…) alignées OSM"
+
   - id: a0000000-0000-4000-8000-000000000141
     version: "1.4.1"
     releasedAt: "2026-05-18T10:00:00Z"
