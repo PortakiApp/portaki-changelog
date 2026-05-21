@@ -2,6 +2,19 @@
 # Repo public : https://github.com/PortakiApp/portaki-changelog
 
 releases:
+  - id: a0000000-0000-4000-8000-000000000143
+    version: "1.4.3"
+    releasedAt: "2026-05-21T14:00:00Z"
+    category: platform
+    titleFr: "Onglets workspace modules plus fiables"
+    summaryFr: "Sections, règlement et appareils s’affichent dans le workspace logement uniquement à la version installée ; le design hôte reste cohérent sur tout le dashboard."
+    featured: false
+    entries:
+      - changeType: change
+        titleFr: "Onglets Sections / Règlement / Appareils masqués si la version du module sur le logement ne correspond pas au catalogue"
+      - changeType: perf
+        titleFr: "Éditeurs hôte des modules pilotes chargés via le package module (moins de code spécifique dans le shell)"
+
   - id: a0000000-0000-4000-8000-000000000142
     version: "1.4.2"
     releasedAt: "2026-05-21T12:00:00Z"
