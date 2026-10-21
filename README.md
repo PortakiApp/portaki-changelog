@@ -1,122 +1,60 @@
 # portaki-changelog
 
-Changelog **produit** de [Portaki](https://portaki.app) pour l’espace hôte (`dash.portaki.app`) : cloche **Nouveautés**, page `/dashboard/whats-new`, modal de release et digest e-mail (à venir).
+Changelog **produit** de [Portaki](https://portaki.app) destiné aux hôtes : il alimente la cloche **Nouveautés**, la page `/whats-new` et la modal de release du dashboard hôte.
 
-Ce dépôt est **public** et versionné. L’API hôte (`portaki-api`) charge `releases.yaml` sur la branche configurée (par défaut `main`).
+Le dépôt ne contient qu'un fichier de données : [`releases.yaml`](releases.yaml). Pas de code, pas de build.
 
-> Ce n’est **pas** le changelog des modules catalogue (`portaki-modules` / `portaki.module.json`).  
-> Ce n’est **pas** non plus le registre GitHub Releases technique de chaque repo.
+> Ce n'est **pas** le changelog des modules (`portaki-modules`), ni les GitHub Releases techniques de chaque dépôt.
 
----
+## Comment il est lu
 
-## Consommateurs
+| Composant | Rôle |
+|-----------|------|
+| **portaki-platform** (orchestrateur) | Télécharge `releases.yaml` depuis `raw.githubusercontent.com` (sans token), le met en cache et l'expose sous `/api/v1/me/product-updates` (liste, non-lus, release mise en avant, abonnement e-mail). |
+| **portaki-web** (dashboard hôte) | Cloche, page `/whats-new`, modal hero. |
 
-| Composant | Usage |
-|-----------|--------|
-| **portaki-api** | `GET /api/v1/me/product-updates` (+ unread, featured hero) |
-| **portaki-web** | Popover cloche cadeau, timeline, liste brute |
-| **Futur** | Digest e-mail bimensuel, flux RSS |
+- Le cache est rechargé au démarrage, par une tâche planifiée et à la lecture s'il a plus de 6 h. **Publier = merger sur `main`**, aucun redéploiement.
+- Si GitHub est injoignable, l'orchestrateur retombe sur une copie embarquée (`product-updates/releases.yaml` dans le classpath).
+- Une release dont `releasedAt` est dans le futur n'est pas affichée.
+- Un hôte ne voit comme nouveautés que les releases publiées après la création de son compte.
+- L'état lu / non lu et l'abonnement e-mail sont stockés côté API, pas ici.
 
-État **lu / non lu** et **abonnement e-mail** : stockés en base côté API (par utilisateur), pas dans ce fichier.
-
----
-
-## Fichier source
-
-Un seul fichier pour l’instant :
-
-```
-releases.yaml
-```
-
-Après merge sur `main`, le cache API est rafraîchi (démarrage + tâche planifiée ~6 h). Pas de redéploiement API pour publier une nouveauté.
-
----
+Variables côté orchestrateur (défauts) : `CHANGELOG_GITHUB_ORG` (`PortakiApp`), `CHANGELOG_GITHUB_REPO` (`portaki-changelog`), `CHANGELOG_GITHUB_REF` (`main`), `CHANGELOG_FALLBACK_CLASSPATH` (`true`).
 
 ## Publier une release
 
-1. Éditer `releases.yaml`.
-2. Ajouter une entrée **en tête de liste** (ordre décroissant par `releasedAt`).
-3. Choisir un **`id` UUID stable** (ne jamais le réutiliser) — il sert au marquage « lu » côté hôte.
-4. Ouvrir une PR ; valider le texte **FR produit** (pas de copier-coller brut GitHub Releases).
-5. Merger sur `main`.
+1. Ajouter une entrée **en tête** de `releases.yaml` (ordre décroissant par `releasedAt`).
+2. Donner un `id` UUID **nouveau et stable** : il sert au marquage « lu », ne jamais le réutiliser.
+3. Rédiger un texte **produit en français** (pas un copier-coller de GitHub Releases).
+4. Ouvrir une PR, la faire relire, merger sur `main`.
 
-### Checklist release
-
-- [ ] `version` semver (`1.4.2`)
-- [ ] `releasedAt` ISO-8601 UTC (`2026-05-20T10:00:00Z`)
-- [ ] `category` : `platform` | `guest` | `marketplace` | `auth` | `property`
-- [ ] `titleFr` + `summaryFr` courts (popover + timeline)
-- [ ] `featured: true` au plus pour **une** release récente (modal hero)
-- [ ] `entries[]` avec `changeType` : `nouveau` | `fix` | `perf` | `change`
-- [ ] `demoUrl` optionnel (chemin dashboard, ex. `/dashboard/marketplace`)
-
----
-
-## Schéma YAML (résumé)
+### Schéma
 
 ```yaml
 releases:
   - id: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"  # UUID fixe
-    version: "1.5.0"
-    releasedAt: "2026-05-20T10:00:00Z"
-    category: platform
-    titleFr: "Titre affiché dans le dashboard"
-    summaryFr: "Résumé une ou deux phrases."
-    featured: false
-    featureHighlightFr: "Texte long pour la modal (si featured)"
-    demoUrl: /dashboard/listings
-    sourceUrl: https://github.com/PortakiApp/portaki-web/releases/tag/v1.5.0  # optionnel
+    version: "1.5.0"                            # semver
+    releasedAt: "2026-05-20T10:00:00Z"          # ISO-8601 UTC
+    category: platform                          # voir ci-dessous
+    titleFr: "Titre court (cloche + timeline)"
+    summaryFr: "Résumé en une ou deux phrases."
+    featured: false                             # true pour une seule release récente (modal hero)
+    featureHighlightFr: "Texte long de la modal" # si featured
+    demoUrl: /listings                          # optionnel, chemin du dashboard
+    sourceUrl: https://github.com/PortakiApp/…   # optionnel
     entries:
-      - changeType: nouveau
-        titleFr: "Bullet NOUVEAU / FIX / PERF / CHANGÉ"
+      - changeType: nouveau                     # nouveau | fix | perf | change
+        titleFr: "Une ligne par changement"
 ```
 
----
-
-## Catégories
-
-| Valeur | Filtre UI |
-|--------|-----------|
+| `category` | Filtre affiché |
+|------------|----------------|
 | `platform` | Plateforme |
 | `guest` | Voyageur |
 | `marketplace` | Marketplace |
 | `auth` | Auth |
 | `property` | Logement |
 
----
-
-## Relation avec GitHub Releases
-
-Recommandation :
-
-1. Les tags / releases techniques restent sur chaque repo (`portaki-web`, `portaki-api`, …).
-2. Ce fichier raconte la **story produit** pour les hôtes (une version = une entrée, même si plusieurs repos ont bougé).
-3. Un job futur peut ouvrir une **PR brouillon** à partir des releases GitHub ; la rédaction finale reste humaine ici.
-
----
-
-## Configuration API
-
-Variables (défauts) dans `portaki-api` :
-
-```yaml
-portaki:
-  product-updates:
-    catalog:
-      org: PortakiApp
-      repo: portaki-changelog
-      ref: main
-      path: releases.yaml
-      fallback-classpath-enabled: true
-```
-
-URL brute (repo public) :
-
-`https://raw.githubusercontent.com/PortakiApp/portaki-changelog/main/releases.yaml`
-
----
-
 ## Licence
 
-Contenu éditorial © Portaki. Structure et exemples : usage interne Portaki ; contributions via PR sur ce dépôt selon process équipe.
+Contenu éditorial © Portaki. Les contributions passent par PR sur ce dépôt.
